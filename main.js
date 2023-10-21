@@ -1,11 +1,11 @@
 
-function recuperarDatos(){
+/* function recuperarDatos(){
     nombreombre.value = localStorage.getItem("nombre")
     apellido.value = localStorage.getItem("apellido")
-    act.value = localStorage.getItem("edad")
-    cantidad.value = localStorage.getItem("direccion")
-    email.value = localStorage.getItem("email", email.value);
-}
+    act.value = localStorage.getItem("actividad")
+    cantidad.value = localStorage.getItem("cant")
+    email.value = localStorage.getItem("email");
+} */
 
 
 let nombre = document.getElementById("nombre")
@@ -19,22 +19,22 @@ let boton = document.getElementById("boton");
 
 
 
-const actividad = [{id:1, act:"eventos", valor: 500  },
-                    {id:2 , act:"visita", valor:250},
-                    {id:3 , act:"degustacion" , valor:350}]
+const actividad = [{id:1, acti:"eventos", valor: 500  },
+                    {id:2 , acti:"visita", valor:250},
+                    {id:3 , acti:"degustacion" , valor:350}]
 
 
 function guardarusuario(){
 
-                        localStorage.setItem("nombre", nombre.value);
-                        localStorage.setItem("apellido", apellido.value);
-                        localStorage.setItem("email", email.value);
-                        localStorage.setItem("actividad", act.value);
-                        localStorage.setItem("cant", cantidad.value );
+                        localStorage.setItem("nombre", nombre)
+                        localStorage.setItem("apellido", apellido)
+                        localStorage.setItem("email", email)
+                        localStorage.setItem("actividad", act)
+                        localStorage.setItem("cant", cantidad )
 }
                     
 
-guardarusuario()
+guardarusuario();
 
 
 
@@ -55,7 +55,7 @@ guardarusuario()
 
 
 
-
+/* 
 boton.addEventListener("submit", function() {
   alert("Gracias por visitarnos")
-});
+}); */
