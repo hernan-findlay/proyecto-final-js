@@ -15,23 +15,26 @@
     <main>
         <form action="" style="background-color:beige; display: flex; flex-direction: column; align-items: center; gap: .625rem;">
             
-            <label >Nombre:</label>
-            <input  id="nombre" placeholder="Ingresa tu nombre" >
+            <label for="nombre" >Nombre:</label>
+            <input type="text" id="nombre" placeholder="Ingresa tu nombre" required >
             
-            <label >Apellido:</label>
-            <input  id="ape" placeholder="Ingresa tu apellido" >
+            <label for="ape">Apellido:</label>
+            <input type="text" id="ape" placeholder="Ingresa tu apellido" required>
             
-            <label >E-mail:</label>
-            <input  id="email" placeholder="Ingresa tu e-mail" >
+            <label for="mail">E-mail:</label>
+            <input type="email" id="mail" placeholder="Ingresa tu e-mail" required>
             
-            <label >Telefono/celular:</label>
-            <input  id="tel" placeholder="Ingresa tu tel/cel" >
+            <label for="cel">Telefono/celular:</label>
+            <input type="number" id="cel" placeholder="Ingresa tu tel/cel" required>
             
-            <label >Que actividad desea hacer:</label>
-            <input style="width: 50%;"  id="act" placeholder="Ingrese actvidad: Evento / Visita / Degustacion " >
+            <label for="act">Que actividad desea hacer:</label>
+            <input type="number" style="width: 50%;"  id="act" placeholder="Ingrese opcione: 1-Evento / 2-Visita / 3-Degustacion " required>
+
+            <label for="act2">Que otra actividad desea hacer:</label>
+            <input type="number" style="width: 50%;"  id="act2" placeholder="Ingrese opcione: 1-Evento / 2-Visita / 3-Degustacion " required>
             
-            <label >Cantidad de personas:</label>
-            <input  id="cant" placeholder="Ingrese cantidad / max 6" >
+            <label for="cant">Cantidad de personas:</label>
+            <input type="number" id="cant" placeholder="Ingrese cantidad / max 6" required>
             
             <button id="boton">Enviar</button>
             
