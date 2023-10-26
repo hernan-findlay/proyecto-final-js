@@ -1,3 +1,14 @@
+// Verificar si el usuario ya está guardado en el localStorage
+const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+
+if (!usuarioGuardado) {
+  Swal.fire({
+    icon: 'info',
+    title: '¡Bienvenido!',
+    text: 'Por favor, complete los campos y haga clic en "Enviar" para guardar sus datos.'
+  });
+}
+
 const actividades = [
   { id: 1, act: "Evento", valor: 5000 },
   { id: 2, act: "Degustación", valor: 8000 },
@@ -13,27 +24,31 @@ const acti2 = document.getElementById("act2");
 const cant = document.getElementById("cant");
 const pagar = document.getElementById("pagar");
 
-
-const usuario = JSON.parse(localStorage.getItem("usuario")) || {};
-  nombre.value = usuario.nombre || "";
-  apellido.value = usuario.apellido || "";
-  email.value = usuario.email || "";
-  tel.value = usuario.tel || "";
-
-
-actualizarCostoTotal();
-
 document.getElementById("boton").addEventListener("click", function () {
- 
-  const usuario = {
+    const usuario = JSON.parse(localStorage.getItem("usuario")) || { datos: [] };
+  const nuevoDato = {
     nombre: nombre.value,
     apellido: apellido.value,
     email: email.value,
     telefono: tel.value
   };
+  usuario.datos.push(nuevoDato);
   localStorage.setItem("usuario", JSON.stringify(usuario));
 
+  
   actualizarCostoTotal();
+
+ 
+  setTimeout(function () {
+    nombre.value = "";
+    apellido.value = "";
+    email.value = "";
+    tel.value = "";
+    acti.value = "";
+    acti2.value = "";
+    cant.value = "";
+    pagar.value = "";
+  }, 30000);
 });
 
 function actualizarCostoTotal() {
@@ -43,21 +58,12 @@ function actualizarCostoTotal() {
 
   let costoTotal = 0;
 
-  if (!isNaN(sel) && sel >= 1 && sel <= 3) {
-    costoTotal += actividades.find((act) => act.id === parseInt(sel)).valor;
+  if (!isNaN(sel) && (sel === "1" || sel === "2" || sel === "3") &&
+  !isNaN(sel2) && (sel2 === "1" || sel2 === "2" || sel2 === "3") &&
+  !isNaN(cantidadPersonas) && cantidadPersonas > 0 && cantidadPersonas <= 6){
+    pagar.value = costoTotal;
   }
-
-  if (!isNaN(sel2) && sel2 >= 1 && sel2 <= 3) {
-    costoTotal += actividades.find((act) => act.id === parseInt(sel2)).valor;
-  }
-
-  if (!isNaN(cantidadPersonas) && cantidadPersonas > 0 && cantidadPersonas <= 6) {
-    costoTotal *= cantidadPersonas;
-  }
-
-  pagar.value = costoTotal;
-
- 
+  
 }
 
 
@@ -69,19 +75,3 @@ function actualizarCostoTotal() {
 
 
 
-
-
-
-
-
-
-
-
-/* 
-
-
-
-boton.addEventListener("submit", function() {
-  alert("Gracias por visitarnos")
-})
- */
