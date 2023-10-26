@@ -1,4 +1,3 @@
-// Verificar si el usuario ya está guardado en el localStorage
 const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
 
 if (!usuarioGuardado) {
