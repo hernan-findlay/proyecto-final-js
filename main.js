@@ -1,18 +1,13 @@
-const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
-
-if (!usuarioGuardado) {
-  Swal.fire({
-    icon: 'info',
-    title: '¡Bienvenido!',
-    text: 'Por favor, complete los campos y haga clic en "Enviar" para guardar sus datos.'
-  });
-}
-
 const actividades = [
   { id: 1, act: "Evento", valor: 5000 },
   { id: 2, act: "Degustación", valor: 8000 },
   { id: 3, act: "Visita", valor: 4000 }
 ];
+
+
+const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+
+
 
 const nombre = document.getElementById("nombre");
 const apellido = document.getElementById("ape");
@@ -24,7 +19,7 @@ const cant = document.getElementById("cant");
 const pagar = document.getElementById("pagar");
 
 document.getElementById("boton").addEventListener("click", function () {
-    const usuario = JSON.parse(localStorage.getItem("usuario")) || { datos: [] };
+  const usuario = JSON.parse(localStorage.getItem("usuario")) || { datos: [] };
   const nuevoDato = {
     nombre: nombre.value,
     apellido: apellido.value,
@@ -34,10 +29,8 @@ document.getElementById("boton").addEventListener("click", function () {
   usuario.datos.push(nuevoDato);
   localStorage.setItem("usuario", JSON.stringify(usuario));
 
-  
   actualizarCostoTotal();
 
- 
   setTimeout(function () {
     nombre.value = "";
     apellido.value = "";
@@ -57,20 +50,33 @@ function actualizarCostoTotal() {
 
   let costoTotal = 0;
 
-  if (!isNaN(sel) && (sel === "1" || sel === "2" || sel === "3") &&
-  !isNaN(sel2) && (sel2 === "1" || sel2 === "2" || sel2 === "3") &&
-  !isNaN(cantidadPersonas) && cantidadPersonas > 0 && cantidadPersonas <= 6){
-    pagar.value = costoTotal;
+  if (!isNaN(sel) && sel >= 1 && sel <= 3) {
+    costoTotal += actividades.find((act) => act.id === parseInt(sel)).valor;
   }
+
+  if (!isNaN(sel2) && sel2 >= 1 && sel2 <= 3) {
+    costoTotal += actividades.find((act) => act.id === parseInt(sel2)).valor;
+  }
+
+  if (!isNaN(cantidadPersonas) && cantidadPersonas > 0 && cantidadPersonas <= 6) {
+    costoTotal *= cantidadPersonas;
+  }
+
   
+  pagar.value = costoTotal;
+
+  
+  setTimeout(function () {
+    nombre.value = "";
+    apellido.value = "";
+    email.value = "";
+    tel.value = "";
+    acti.value = "";
+    acti2.value = "";
+    cant.value = "";
+    pagar.value = "";
+  }, 30000);
 }
-
-
-
-
-
-
-
 
 
 
