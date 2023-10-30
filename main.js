@@ -46,7 +46,7 @@ boton.addEventListener("click", function() {
   const precioVino = vinoSeleccionadoInfo.precio;
 
   // Calcular el precio total incluyendo el IVA (por ejemplo, 10% de IVA)
-  const iva = 0.; // Cambiado a 10% de IVA
+  const iva = 0.21; // Cambiado a 10% de IVA
   const precioSinIva = precioVino * cantidad;
   const precioTotal = precioSinIva * (1 + iva);
 
