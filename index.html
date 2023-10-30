@@ -16,18 +16,29 @@
     <main>
         <form action="" style="background-color:beige; display: flex; flex-direction: column; align-items: center; gap: .625rem;">
             
+            <h1>Registro</h1>
+            
             <label for="nombre" >Nombre:</label>
             <input type="text" id="nombre" placeholder="Ingresa tu nombre" required >
             
             <label for="ape">Apellido:</label>
             <input type="text" id="ape" placeholder="Ingresa tu apellido" required>
+
+
+            <label for="contra">Contaseña:</label>
+            <input type="email" id="contra" placeholder="Ingresa tu contraseña" required>
+
+            <label for="recontra">Contaseña:</label>
+            <input type="email" id="recontra" placeholder="Repita su contraseña" required>
             
             <label for="mail">E-mail:</label>
             <input type="email" id="mail" placeholder="Ingresa tu e-mail" required>
             
-            <label for="cel">Telefono/celular:</label>
-            <input type="number" id="cel" placeholder="Ingresa tu tel/cel" required>
-            
+           <button id="Guardar">Registro</button>           
+
+
+
+            <h1>Pedido</h1>
             <label for="vino">Elija cual variedad quiere:</label>
             <select name="" id="vino">
                 <option value="ata1">Atardecer1</option>
@@ -41,7 +52,7 @@
             <label for="cant">Que cantidad quiere:</label>
             <input type="number" id="cant" placeholder="Ingrese cantidad / max 6" required>
             
-            <button id="boton">Enviar</button>
+            <button id="boton">Calcular</button>
 
            
         </form>
