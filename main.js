@@ -1,82 +1,88 @@
-const actividades = [
-  { id: 1, act: "Evento", valor: 5000 },
-  { id: 2, act: "Degustación", valor: 8000 },
-  { id: 3, act: "Visita", valor: 4000 }
+const vinos = [
+  { nombre: "Atardecer 1", precio: 1000 },
+  { nombre: "Atardecer 2", precio: 1500 },
+  { nombre: "Atardecer 3", precio: 2200 },
+  { nombre: "Atardecer 4", precio: 2400 },
+  { nombre: "Atardecer 5", precio: 2500 },
+  { nombre: "Atardecer 6", precio: 2000 }
 ];
 
+const nombreInput = document.getElementById("nombre");
+const apellidoInput = document.getElementById("ape");
+const emailInput = document.getElementById("mail");
+const telefonoInput = document.getElementById("cel");
+const vinosSelect = document.getElementById("vino");
+const cantidadInput = document.getElementById("cant");
+const boton = document.getElementById("boton");
 
-const usuarioGuardado = JSON.parse(localStorage.getItem("usuario"));
+boton.addEventListener("click", function() {
+  const nombre = nombreInput.value;
+  const apellido = apellidoInput.value;
+  const email = emailInput.value;
+  const telefono = telefonoInput.value;
+  const vinoSeleccionado = vinosSelect.value;
+  const cantidad = cantidadInput.value;
 
+  // Validar que se haya ingresado una cantidad válida (1-6)
+  if (cantidad < 1 || cantidad > 6) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'La cantidad debe estar entre 1 y 6.'
+    });
+    return;
+  }
 
+  // Calcular el precio del vino seleccionado
+  const vinoSeleccionadoInfo = vinos.find(vino => vino.nombre === vinoSeleccionado);
+  if (!vinoSeleccionadoInfo) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'El vino seleccionado no es válido.'
+    });
+    return;
+  }
+  const precioVino = vinoSeleccionadoInfo.precio;
 
-const nombre = document.getElementById("nombre");
-const apellido = document.getElementById("ape");
-const email = document.getElementById("mail");
-const tel = document.getElementById("cel");
-const acti = document.getElementById("act");
-const acti2 = document.getElementById("act2");
-const cant = document.getElementById("cant");
-const pagar = document.getElementById("pagar");
+  // Calcular el precio total incluyendo el IVA (por ejemplo, 10% de IVA)
+  const iva = 0.; // Cambiado a 10% de IVA
+  const precioSinIva = precioVino * cantidad;
+  const precioTotal = precioSinIva * (1 + iva);
 
-document.getElementById("boton").addEventListener("click", function () {
-  const usuario = JSON.parse(localStorage.getItem("usuario")) || { datos: [] };
-  const nuevoDato = {
-    nombre: nombre.value,
-    apellido: apellido.value,
-    email: email.value,
-    telefono: tel.value
+  // Mostrar una alerta con los detalles del pedido, incluyendo el precio total
+  Swal.fire({
+    icon: 'success',
+    title: 'Pedido Realizado',
+    html: `Nombre: ${nombre} ${apellido}<br>Email: ${email}<br>Teléfono: ${telefono}<br>Vino: ${vinoSeleccionado}<br>Cantidad: ${cantidad}<br>Precio del Vino: $${precioVino}<br>Total (con IVA): $${precioTotal.toFixed(2)}`
+  });
+
+  // Cargar usuarios existentes del Local Storage
+  let usuarios = JSON.parse(localStorage.getItem('usuarios')) ;
+
+  // Crear el pedido
+  const pedido = {
+    nombre,
+    apellido,
+    email,
+    telefono,
+    vino: vinoSeleccionado,
+    cantidad,
+    precioTotal // Agregar el precio total al pedido
   };
-  usuario.datos.push(nuevoDato);
-  localStorage.setItem("usuario", JSON.stringify(usuario));
 
-  actualizarCostoTotal();
+  // Agregar el pedido al array de usuarios
+  usuarios.push(pedido);
 
-  setTimeout(function () {
-    nombre.value = "";
-    apellido.value = "";
-    email.value = "";
-    tel.value = "";
-    acti.value = "";
-    acti2.value = "";
-    cant.value = "";
-    pagar.value = "";
-  }, 30000);
+  // Guardar el array de usuarios en el Local Storage
+  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+  // Limpia el formulario
+  nombreInput.value = '';
+  apellidoInput.value = '';
+  emailInput.value = '';
+  telefonoInput.value = '';
+  cantidadInput.value = '';
 });
-
-function actualizarCostoTotal() {
-  const sel = acti.value;
-  const sel2 = acti2.value;
-  const cantidadPersonas = cant.value;
-
-  let costoTotal = 0;
-
-  if (!isNaN(sel) && sel >= 1 && sel <= 3) {
-    costoTotal += actividades.find((act) => act.id === parseInt(sel)).valor;
-  }
-
-  if (!isNaN(sel2) && sel2 >= 1 && sel2 <= 3) {
-    costoTotal += actividades.find((act) => act.id === parseInt(sel2)).valor;
-  }
-
-  if (!isNaN(cantidadPersonas) && cantidadPersonas > 0 && cantidadPersonas <= 6) {
-    costoTotal *= cantidadPersonas;
-  }
-
-  
-  pagar.value = costoTotal;
-
-  
-  setTimeout(function () {
-    nombre.value = "";
-    apellido.value = "";
-    email.value = "";
-    tel.value = "";
-    acti.value = "";
-    acti2.value = "";
-    cant.value = "";
-    pagar.value = "";
-  }, 30000);
-}
-
 
 
