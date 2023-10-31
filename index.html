@@ -15,7 +15,7 @@
 
     <main>
         <form action="" style="background-color:beige; display: flex; flex-direction: column; align-items: center; gap: .625rem;">
-            
+          <section>
             <h1>Registro</h1>
             
             <label for="nombre" >Nombre:</label>
@@ -26,18 +26,28 @@
 
 
             <label for="contra">Contaseña:</label>
-            <input type="email" id="contra" placeholder="Ingresa tu contraseña" required>
+            <input type="text" id="contra" placeholder="Ingresa tu contraseña" required>
 
             <label for="recontra">Contaseña:</label>
-            <input type="email" id="recontra" placeholder="Repita su contraseña" required>
+            <input type="text" id="recontra" placeholder="Repita su contraseña" required>
             
             <label for="mail">E-mail:</label>
             <input type="email" id="mail" placeholder="Ingresa tu e-mail" required>
             
-           <button id="Guardar">Registro</button>           
+           <button id="Guardar">Registro</button> 
+        </section>          
+<section>
+            <h1>Ya esta registrado?</h1>
 
+            <label for="ingreso" >Nombre:</label>
+            <input type="text" id="ingreso" placeholder="Ingresa tu nombre" required >
 
+            <label for="valcontra">Contaseña:</label>
+            <input type="text" id="valcontra" placeholder="Ingresa tu contraseña" required>
 
+            <button id="Ingresar">Ingresar</button>
+        </section>
+        <section>
             <h1>Pedido</h1>
             <label for="vino">Elija cual variedad quiere:</label>
             <select name="" id="vino">
@@ -53,7 +63,7 @@
             <input type="number" id="cant" placeholder="Ingrese cantidad / max 6" required>
             
             <button id="boton">Calcular</button>
-
+        </section>
            
         </form>
 

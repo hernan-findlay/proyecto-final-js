@@ -1,182 +1,168 @@
-/* const vinos = [
-  { nombre: "Atardecer 1", precio: 1000 },
-  { nombre: "Atardecer 2", precio: 1500 },
-  { nombre: "Atardecer 3", precio: 2200 },
-  { nombre: "Atardecer 4", precio: 2400 },
-  { nombre: "Atardecer 5", precio: 2500 },
-  { nombre: "Atardecer 6", precio: 2000 }
+
+
+
+
+                                                                            //  usuarios
+
+
+
+
+
+
+const registroButton = document.getElementById("Guardar");
+registroButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    const nombre = document.getElementById("nombre").value;
+    const apellido = document.getElementById("ape").value;
+    const contrasena = document.getElementById("contra").value;
+    const confirmContrasena = document.getElementById("recontra").value;
+    const email = document.getElementById("mail").value;
+
+    if (contrasena !== confirmContrasena) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Las contraseñas no coinciden.",
+        });
+        return;
+    }
+
+    
+    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    
+    const usuarioExistente = usuariosRegistrados.find((user) => user.nombre === nombre);
+
+    if (usuarioExistente) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Este nombre de usuario ya está en uso. Por favor, elija otro.",
+        });
+    } else {
+        
+        const nuevoUsuario = {
+            nombre,
+            apellido,
+            contrasena,
+            email,
+        };
+
+        usuariosRegistrados.push(nuevoUsuario);
+
+
+
+
+
+
+        
+
+        
+        localStorage.setItem("usuarios", JSON.stringify(usuariosRegistrados));
+
+        Swal.fire({
+            icon: "success",
+            title: "Registro exitoso",
+            text: "Has sido registrado con éxito.",
+        });
+
+        
+        document.getElementById("nombre").value = "";
+        document.getElementById("ape").value = "";
+        document.getElementById("contra").value = "";
+        document.getElementById("recontra").value = "";
+        document.getElementById("mail").value = "";
+    }
+});
+
+                                                                              // Inicio 
+const inicioSesionButton = document.getElementById("Ingresar");
+inicioSesionButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    const nombreLogin = document.getElementById("ingreso").value;
+    const contrasenaLogin = document.getElementById("valcontra").value;
+
+    
+    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+    
+    const usuario = usuariosRegistrados.find((user) => user.nombre === nombreLogin && user.contrasena === contrasenaLogin);
+
+    if (usuario) {
+        Swal.fire({
+            icon: "success",
+            title: "Inicio de sesión exitoso",
+            text: "Bienvenido " + nombreLogin,
+        });
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Fallido. Verifica tus datos",
+        });
+    }
+
+    
+    document.getElementById("ingreso").value = "";
+    document.getElementById("valcontra").value = "";
+});
+
+                                                                                            // vinos 
+const vinosDisponibles = [
+    { nombre: "Atardecer 1", precio: 10 },
+    { nombre: "Atardecer 2", precio: 12 },
+    { nombre: "Atardecer 3", precio: 15 },
+    { nombre: "Atardecer 4", precio: 18 },
+    { nombre: "Atardecer 5", precio: 20 },
+    { nombre: "Atardecer 6", precio: 22 },
 ];
 
-const nombreInput = document.getElementById("nombre");
-const apellidoInput = document.getElementById("ape");
-const emailInput = document.getElementById("mail");
-const telefonoInput = document.getElementById("cel");
-const vinosSelect = document.getElementById("vino");
-const cantidadInput = document.getElementById("cant");
-const boton = document.getElementById("boton");
 
-boton.addEventListener("click", function() {
-  const nombre = nombreInput.value;
-  const apellido = apellidoInput.value;
-  const email = emailInput.value;
-  const telefono = telefonoInput.value;
-  const vinoSeleccionado = vinosSelect.value;
-  const cantidad = cantidadInput.value;
+const detallesCompra = {
+    vino: "",
+    cantidad: 0,
+    subtotal: 0,
+    iva: 0,
+    total: 0,
+};
 
-  // Validar que se haya ingresado una cantidad válida (1-6)
-  if (cantidad < 1 || cantidad > 6) {
-    console.error('Error: La cantidad debe estar entre 1 y 6.');
-    return;
-  }
 
-  // Calcular el precio del vino seleccionado
-  const vinoSeleccionadoInfo = vinos.find(vino => vino.nombre === vinoSeleccionado);
-  if (!vinoSeleccionadoInfo) {
-    console.error('Error: El vino seleccionado no es válido.');
-    return;
-  }
-  const precioVino = vinoSeleccionadoInfo.precio;
+const calcularButton = document.getElementById("boton");
+calcularButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    const vinoSeleccionado = document.getElementById("vino").value;
+    const cantidad = parseInt(document.getElementById("cant").value);
 
-  // Calcular el precio total incluyendo el IVA (por ejemplo, 10% de IVA)
-  const iva = 0.21; // Cambiado a 10% de IVA
-  const precioSinIva = precioVino * cantidad;
-  const precioTotal = precioSinIva * (1 + iva);
+    
+    const vino = vinosDisponibles.find((vino) => vino.nombre === vinoSeleccionado);
 
-  // Mostrar una alerta con los detalles del pedido, incluyendo el precio total
-  console.log('Pedido Realizado');
-  console.log(`Nombre: ${nombre} ${apellido}`);
-  console.log(`Email: ${email}`);
-  console.log(`Teléfono: ${telefono}`);
-  console.log(`Vino: ${vinoSeleccionado}`);
-  console.log(`Cantidad: ${cantidad}`);
-  console.log(`Precio del Vino: $${precioVino}`);
-  console.log(`Total (con IVA): $${precioTotal.toFixed(2)}`);
+    if (!vino) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "El vino seleccionado no es válido.",
+        });
+        return;
+    }
 
-  // Cargar usuarios existentes del Local Storage
-  let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    const precioUnitario = vino.precio;
 
-  // Crear el pedido
-  const pedido = {
-    nombre,
-    apellido,
-    email,
-    telefono,
-    vino: vinoSeleccionado,
-    cantidad,
-    precioTotal // Agregar el precio total al pedido
-  };
+    const subtotal = precioUnitario * cantidad;
+    const iva = subtotal * 0.21; 
+    const total = subtotal + iva;
 
-  // Agregar el pedido al array de usuarios
-  usuarios.push(pedido);
+    detallesCompra.vino = vino.nombre;
+    detallesCompra.cantidad = cantidad;
+    detallesCompra.subtotal = subtotal;
+    detallesCompra.iva = iva;
+    detallesCompra.total = total;
 
-  // Guardar el array de usuarios en el Local Storage
-  localStorage.setItem('usuarios', JSON.stringify(usuarios));
+    Swal.fire({
+        icon: "info",
+        title: "Resumen de compra",
+        html: `Vino seleccionado: ${vino.nombre}<br>Cantidad: ${cantidad}<br>Subtotal: $${subtotal}<br>IVA (21%): $${iva}<br>Total a pagar: $${total}`,
+    });
 
-  // Limpia el formulario
-  nombreInput.value = '';
-  apellidoInput.value = '';
-  emailInput.value = '';
-  telefonoInput.value = '';
-  cantidadInput.value = '';
-});
- */
-
-// JavaScript (main.js)
-document.addEventListener("DOMContentLoaded", function () {
-  const vinos = [
-      { nombre: "Atardecer 1", precio: 1000 },
-      { nombre: "Atardecer 2", precio: 1500 },
-      { nombre: "Atardecer 3", precio: 2200 },
-      { nombre: "Atardecer 4", precio: 2400 },
-      { nombre: "Atardecer 5", precio: 2500 },
-      { nombre: "Atardecer 6", precio: 2000 }
-  ];
-
-  const nombreInput = document.getElementById("nombre");
-  const apellidoInput = document.getElementById("ape");
-  const emailInput = document.getElementById("mail");
-  const contrasenaInput = document.getElementById("contra");
-  const recontrasenaInput = document.getElementById("recontra");
-  const vinosSelect = document.getElementById("vino");
-  const cantidadInput = document.getElementById("cant");
-  const botonRegistro = document.getElementById("Guardar");
-  const botonPedido = document.getElementById("boton");
-
-  // Manejar el evento de registro
-  botonRegistro.addEventListener("click", function () {
-      const nombre = nombreInput.value;
-      const apellido = apellidoInput.value;
-      const email = emailInput.value;
-      const contrasena = contrasenaInput.value;
-      const recontrasena = recontrasenaInput.value;
-
-      // Verificar si las contraseñas coinciden
-      if (contrasena !== recontrasena) {
-          Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Las contraseñas no coinciden.',
-          });
-          return;
-      }
-
-      // Crear un objeto de usuario
-      const usuario = {
-          nombre,
-          apellido,
-          email,
-          contrasena, // Aquí podrías almacenar la contraseña si es necesario
-      };
-
-      // Guardar el objeto de usuario en el Local Storage
-      localStorage.setItem('usuario', JSON.stringify(usuario));
-
-      // Limpiar los campos del formulario de registro
-      nombreInput.value = '';
-      apellidoInput.value = '';
-      emailInput.value = '';
-      contrasenaInput.value = '';
-      recontrasenaInput.value = '';
-  });
-
-  // Manejar el evento de pedido
-  botonPedido.addEventListener("click", function () {
-      const vinoSeleccionado = vinosSelect.value;
-      const cantidad = cantidadInput.value;
-
-      // Validar que se haya ingresado una cantidad válida (1-6)
-      if (cantidad < 1 || cantidad > 6) {
-          Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'La cantidad debe estar entre 1 y 6.',
-          });
-          return;
-      }
-
-      // Calcular el precio del vino seleccionado
-      const vinoSeleccionadoInfo = vinos.find(vino => vino.nombre === vinoSeleccionado);
-      if (!vinoSeleccionadoInfo) {
-          Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'El vino seleccionado no es válido.',
-          });
-          return;
-      }
-      const precioVino = vinoSeleccionadoInfo.precio;
-
-      // Calcular el precio total incluyendo el IVA (por ejemplo, 21% de IVA)
-      const iva = 0.21; // Cambiado a 21% de IVA
-      const precioSinIva = precioVino * cantidad;
-      const precioTotal = precioSinIva * (1 + iva);
-
-      // Mostrar una alerta con los detalles del pedido, incluyendo la información del usuario
-      const usuario = JSON.parse(localStorage.getItem('usuario'));
-      Swal.fire({
-          icon: 'success',
-          title: 'Pedido Realizado',
-          html: `Nombre: ${usuario.nombre} ${usuario.apellido}<br>Email: ${usuario.email}<br>Vino: ${vinoSeleccionado}<br>Cantidad: ${cantidad}<br>Precio del Vino: $${precioVino}<br>Total (con IVA): $${precioTotal.toFixed(2)}`,
-      });
-  });
+    
+    document.getElementById("cant").value = "";
 });
